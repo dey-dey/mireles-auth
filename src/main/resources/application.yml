@@ -1,0 +1,65 @@
+server.port: 12345
+
+api:
+  auth-secret: ${AUTH_SECRET}
+
+purge:
+  cron:
+    expression: 0 0 5 * * ?
+
+---
+spring:
+  profiles: development
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localpostgres:5432/ouath2jwtauthentication
+    username: dev
+    password: q1w2e3r4
+    initialization-mode: always
+    dbcp2:
+      validation-query: SELECT 1
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/ouath2jwtauthentication
+    user: dev
+    locations: classpath:/db/migration
+    password: q1w2e3r4
+#      type: com.zaxxer.hikari.HikariDataSource
+---
+spring:
+  profiles: test
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:54321/ouath2jwtauthentication
+    username: dev
+    password: q1w2e3r4
+    initialization-mode: always
+    dbcp2:
+      validation-query: SELECT 1
+  flyway:
+    enabled: false
+---
+
+spring:
+  profiles: integration
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:54321/oauth2jwtauthenticationtest
+    user: test
+    password: q1w2e3r4
+    locations: classpath:/db/migration
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:54321/oauth2jwtauthenticationtest
+    username: test
+    password: q1w2e3r4
+    driver-class-name: org.postgresql.Driver

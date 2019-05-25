@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+#      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
+      - image: circleci/postgres:9.6
+        ports:
+          - "54321:5432"
+        environment:
+          - POSTGRES_USER=test
+          - POSTGRES_PASSWORD=
+          - POSTGRES_DB=workoutprotest
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/workoutpro
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: gradle dependencies
+      - run: sudo apt install -y postgresql-client || true
+#      - run: sudo psql -p 5432 -h localhost -c 'SELECT * FROM pg_catalog.pg_tables;' ouath2jwtauthenticationtest test
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # run tests!
+      - run: ./gradlew clean test

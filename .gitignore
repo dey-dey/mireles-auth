@@ -1,0 +1,14 @@
+.idea/
+.gradle
+/.idea
+/*.classpath
+/.classpath
+/.springBeans
+*.DS_Store
+*.iml
+*.iws
+/build
+/local.properties
+target/
+/out
+out/

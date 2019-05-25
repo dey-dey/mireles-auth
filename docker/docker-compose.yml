@@ -1,0 +1,11 @@
+version: '3'
+services:
+  localpostgres:
+    container_name: localpostgres
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=q1w2e3r4
+      - POSTGRES_DB=oauth2jwtauthentication
