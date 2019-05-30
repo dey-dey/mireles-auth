@@ -12,7 +12,7 @@ spring:
   profiles: development
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localpostgres:5432/ouath2jwtauthentication
+    url: jdbc:postgresql://localpostgres:5432/oauth2jwtauthentication
     username: dev
     password: q1w2e3r4
     initialization-mode: always
@@ -27,7 +27,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: true
-    url: jdbc:postgresql://localhost:5432/ouath2jwtauthentication
+    url: jdbc:postgresql://localpostgres:5432/oauth2jwtauthentication
     user: dev
     locations: classpath:/db/migration
     password: q1w2e3r4

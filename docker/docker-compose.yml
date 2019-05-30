@@ -2,7 +2,7 @@ version: '3'
 services:
   localpostgres:
     container_name: localpostgres
-    image: postgres:9.6
+    image: postgres:10.0
     ports:
       - "5432:5432"
     environment:
