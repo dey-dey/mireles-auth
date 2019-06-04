@@ -30,3 +30,14 @@ CREATE TABLE token
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (id)
 );
+
+
+CREATE TABLE token_confirmation
+(
+    id bigserial  NOT NULL,
+    membership_id bigint NOT NULL references membership on delete cascade,
+    type          varchar(120) NOT NULL,
+    token         varchar(36)  NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    PRIMARY KEY (id)
+);
