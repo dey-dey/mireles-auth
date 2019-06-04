@@ -27,7 +27,7 @@ CREATE TABLE membership
     type varchar(120) NOT NULL,
     is_primary boolean not null,
     verification varchar(120),
-    phone_number varchar(15) NOT NULL,
+    phone_number varchar(15),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (id)
