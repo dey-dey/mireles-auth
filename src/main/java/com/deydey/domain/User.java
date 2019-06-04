@@ -3,44 +3,51 @@ package com.deydey.domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.jdbi.v3.core.mapper.reflect.JdbiConstructor;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.List;
 
-@Entity
-@Table(name = "users")
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Builder
-@AllArgsConstructor
-public class User extends Auditable {
-	public User(){}
+public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JdbiConstructor
+	public User(Long id, String username, String firstName , String lastName, List<Membership> memberships, Instant createdAt, Instant updatedAt) {
+		this.id = id;
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.memberships = memberships;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
 	private Long id;
 
-	@NotBlank
-	@Column(unique = true)
-	@Size(min = 1, max = 100)
-	private String email;
+	private String username;
 
-	@Column
-	private String password;
-
-	@Column
 	@Nullable
-	private Character enabled;
+	private String firstName;
+
+	@Nullable
+	private String lastName;
+
+	@Nullable
+	private List<Membership> memberships;
+
+	private Instant createdAt;
+
+	private Instant updatedAt;
 
 	@Override
 	public String toString() {
-		return email;
+		return username + " " + firstName + " " + lastName + " " + id;
 	}
 
-	public void setEnabled() {
-		enabled = ' ';
+	public Membership getPrimary() {
+		return memberships.stream().filter(Membership::isPrimary).findFirst().orElse(null);
 	}
+
 }
