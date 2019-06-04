@@ -24,7 +24,7 @@ CREATE TABLE login_attempt
 CREATE TABLE token
 (
     id bigserial NOT NULL,
-    relation_id bigint NOT NULL,
+    membership_id bigint NOT NULL references membership on delete cascade,
     type          VARCHAR(120) NOT NULL,
     token         varchar(36)  NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
