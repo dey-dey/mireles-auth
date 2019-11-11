@@ -1,4 +1,4 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.documentation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

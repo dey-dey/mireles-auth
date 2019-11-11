@@ -1,4 +1,4 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring;
 
 import lombok.Builder;
 import lombok.Data;
