@@ -1,11 +1,14 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring.security;
 
-import com.deydey.service.CustomUserDetailsService;
+import com.deydey.common.infrastructure.spring.ApplicationConfig;
+import com.deydey.iam.application.service.ApplicationUserDetailsService;
+import com.deydey.iam.application.service.SecurityService;
+import com.deydey.iam.domain.access.authentication.CredentialsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,25 +16,31 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 @Slf4j
+@Profile({"development", "production"})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final CustomUserDetailsService userDetailsService;
+	private final ApplicationUserDetailsService userDetailsService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ApplicationConfig applicationConfig;
-	private final CustomUserDetailsService customUserDetailsService;
+	private final SecurityService securityService;
+	private final CredentialsService credentialsService;
 
 	@Autowired
-	public WebSecurityConfig(CustomUserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationConfig applicationConfig, CustomUserDetailsService customUserDetailsService) {
+	public WebSecurityConfig(ApplicationUserDetailsService userDetailsService,
+							 BCryptPasswordEncoder bCryptPasswordEncoder,
+							 ApplicationConfig applicationConfig,
+							 SecurityService securityService,
+							 CredentialsService credentialsService) {
 		this.userDetailsService = userDetailsService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.applicationConfig = applicationConfig;
-		this.customUserDetailsService = customUserDetailsService;
+		this.securityService = securityService;
+		this.credentialsService = credentialsService;
 	}
 
 	@Override
@@ -46,11 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 				.addFilter(authenticationFilter(authenticationManager()))
-				.addFilter(new JWTAuthorizationFilter(authenticationManager(), applicationConfig, customUserDetailsService));
+				.addFilter(new JWTAuthorizationFilter(authenticationManager(), applicationConfig, userDetailsService));
 	}
 
 	private JWTAuthenticationFilter authenticationFilter(AuthenticationManager authenticationManager) {
-		JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager, applicationConfig);
+		JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager, applicationConfig, credentialsService, securityService);
 		jwtAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler());
 		return jwtAuthenticationFilter;
 	}
@@ -70,8 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

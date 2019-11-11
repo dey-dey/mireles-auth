@@ -1,6 +1,7 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring.security;
 
-import com.deydey.service.CustomUserDetailsService;
+import com.deydey.common.infrastructure.spring.ApplicationConfig;
+import com.deydey.iam.application.service.ApplicationUserDetailsService;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +18,8 @@ import java.io.IOException;
 @Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	private ApplicationConfig applicationConfig;
-	private CustomUserDetailsService customUserDetailsService;
-	public JWTAuthorizationFilter(AuthenticationManager authManager, ApplicationConfig applicationConfig, CustomUserDetailsService customUserDetailsService) {
+	private ApplicationUserDetailsService customUserDetailsService;
+	public JWTAuthorizationFilter(AuthenticationManager authManager, ApplicationConfig applicationConfig, ApplicationUserDetailsService customUserDetailsService) {
 		super(authManager);
 		this.applicationConfig = applicationConfig;
 		this.customUserDetailsService = customUserDetailsService;

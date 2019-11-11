@@ -1,7 +1,13 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring.security;
 
+import com.deydey.common.infrastructure.spring.ApplicationConfig;
+import com.deydey.iam.application.service.SecurityService;
+import com.deydey.iam.domain.access.authentication.Credentials;
+import com.deydey.iam.domain.access.authentication.CredentialsService;
+import com.deydey.iam.domain.access.authorization.Role;
+import com.deydey.iam.domain.identity.user.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.deydey.domain.User;
+import com.deydey.iam.domain.identity.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -18,32 +24,40 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import static com.deydey.config.SecurityConstants.*;
+import java.util.List;
+
+import static com.deydey.common.infrastructure.spring.security.SecurityConstants.EXPIRATION_TIME;
+import static com.deydey.common.infrastructure.spring.security.SecurityConstants.HEADER_STRING;
+import static com.deydey.common.infrastructure.spring.security.SecurityConstants.TOKEN_PREFIX;
 
 @Slf4j
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;
-
 	private ApplicationConfig applicationConfig;
+	private CredentialsService credentialsService;
+	private SecurityService securityService;
 
-	JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationConfig applicationConfig) {
+	JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationConfig applicationConfig, CredentialsService credentialsService, SecurityService securityService) {
 		this.authenticationManager = authenticationManager;
 		this.applicationConfig = applicationConfig;
+		this.credentialsService = credentialsService;
+		this.securityService = securityService;
 	}
-
-
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req,
 												HttpServletResponse res) throws AuthenticationException {
 		try {
-			User creds = new ObjectMapper()
+			User user = new ObjectMapper()
 					.readValue(req.getInputStream(), User.class);
+			Member userMember = user.getPrimary();
+			Credentials credentials = credentialsService.credentialsOfMember(userMember);
+			List<Role> roles = securityService.findRolesForMember(userMember);
 			return authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(
-							creds.getPrimary().getEmail(),
-							creds.getPrimary().getLoginPassword(),
-							new ArrayList<>())
+							credentials.getEmail(),
+							credentials.getPassword(),
+							roles)
 			);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

@@ -1,4 +1,4 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring.security;
 
 
 import org.springframework.context.annotation.Bean;

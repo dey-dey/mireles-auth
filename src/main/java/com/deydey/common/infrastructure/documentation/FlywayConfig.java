@@ -1,4 +1,4 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.documentation;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;

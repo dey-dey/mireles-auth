@@ -1,4 +1,4 @@
-package com.deydey.config;
+package com.deydey.common.infrastructure.spring.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
