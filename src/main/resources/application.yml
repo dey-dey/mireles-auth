@@ -31,35 +31,14 @@ spring:
     user: dev
     locations: classpath:/db/migration
     password: q1w2e3r4
-#      type: com.zaxxer.hikari.HikariDataSource
 ---
 spring:
   profiles: test
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:54321/ouath2jwtauthentication
-    username: dev
-    password: q1w2e3r4
-    initialization-mode: always
-    dbcp2:
-      validation-query: SELECT 1
-  flyway:
-    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+AUTH_SECRET: yo
 ---
 
 spring:
   profiles: integration
-  flyway:
-    enabled: true
-    url: jdbc:postgresql://localhost:54321/oauth2jwtauthenticationtest
-    user: test
-    password: q1w2e3r4
-    locations: classpath:/db/migration
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-  datasource:
-    url: jdbc:postgresql://localhost:54321/oauth2jwtauthenticationtest
-    username: test
-    password: q1w2e3r4
-    driver-class-name: org.postgresql.Driver
