@@ -35,5 +35,5 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: ./gradlew clean unitTest
-      - run: ./gradlew clean integrationTest
+      - run: gradle clean test
+      - run: gradle clean integrationTest
