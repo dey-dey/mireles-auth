@@ -28,7 +28,7 @@ jobs:
           - v1-dependencies-{{ checksum "build.gradle" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-      - run: gradle dependencies
+      - run: ./gradlew dependencies
       - run: sudo apt install -y postgresql-client || true
       - save_cache:
           paths:
@@ -36,5 +36,5 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle clean test
-      - run: gradle clean integrationTest
+      - run: ./gradlew clean test
+      - run: ./gradlew clean integrationTest
