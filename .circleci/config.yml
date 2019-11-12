@@ -11,7 +11,7 @@ jobs:
           - POSTGRES_PASSWORD=
           - POSTGRES_DB=workoutprotest
 
-    working_directory: ~/workoutpro
+    working_directory: ~/mireles-auth
 
     environment:
       # Customize the JVM maximum heap limit
