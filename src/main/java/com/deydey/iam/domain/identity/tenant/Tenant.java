@@ -34,6 +34,7 @@ public class Tenant {
 				.memberships(new ArrayList<>())
 				.auditInformation(AuditInformation.now())
 				.tenantId(TenantId.getNextValue())
+				.enabled(false)
 				.build();
 	}
 
