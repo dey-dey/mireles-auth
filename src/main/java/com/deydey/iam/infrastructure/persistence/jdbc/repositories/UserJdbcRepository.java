@@ -4,7 +4,6 @@ import com.deydey.common.infrastructure.persistence.AuditInformation;
 import com.deydey.iam.domain.identity.tenant.TenantId;
 import com.deydey.iam.domain.identity.user.Member;
 import com.deydey.iam.domain.identity.user.User;
-import com.deydey.iam.domain.identity.user.UserDoesNotExistException;
 import com.deydey.iam.domain.identity.user.UserId;
 import com.deydey.iam.domain.identity.user.UserIdentityInformation;
 import com.deydey.iam.domain.identity.user.UserRepository;
@@ -16,10 +15,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class UserJdbcRepository implements UserRepository {
@@ -40,7 +37,7 @@ public class UserJdbcRepository implements UserRepository {
 		UserIdentityInformation userIdentityInformation = user.getUserIdentityInformation();
 		MapSqlParameterSource parameters = new JdbcMapParameterSource();
 		AuditInformationParameterInjection.injectParameters(parameters, user.getAuditInformation());
-		parameters.addValue("id", user.getId());
+		parameters.addValue("id", user.getId().getValue());
 		parameters.addValue("tenantId", user.getTenantId().getValue());
 		parameters.addValue("firstName", userIdentityInformation.getFirstName());
 		parameters.addValue("lastName", userIdentityInformation.getLastName());
@@ -57,20 +54,19 @@ public class UserJdbcRepository implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> getUserBy(UserId userId) {
+	public User getBy(UserId userId) {
 		MapSqlParameterSource parameters = new JdbcMapParameterSource();
 		parameters.addValue("userId", userId.getValue());
 		List<User> returnedUsers = jdbcTemplate.query(GET_USER_BY_ID, parameters, getUserRowMapper());
 		List<Member> members = jdbcTemplate.query(GET_USER_MEMBERS, parameters, new MemberMapper());
-		if (returnedUsers.size() > 1) {
-			throw new IllegalStateException("more than one user by this id");
-		}
 		if (returnedUsers.size() == 0) {
-			throw new UserDoesNotExistException("user does not exist with the provided id");
+			throw new EntityNotFoundException("user does not exist with the provided id");
 		}
-		User user = returnedUsers.get(0);
+		User user = returnedUsers.stream()
+				.findFirst()
+				.orElseThrow(() -> new EntityNotFoundException("user does not exist with the provided id"));
 		user.setMembers(members);
-		return Optional.of(user);
+		return user;
 	}
 
 	private RowMapper<User> getUserRowMapper() {
