@@ -44,9 +44,11 @@ test {
 }
 
 testSets {
+
 	unitTest {
-		dirName = 'test'
+		dirName = 'test-unit'
 	}
+
 	integrationTest {
 		dirName = 'test-integration'
 	}
