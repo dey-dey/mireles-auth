@@ -37,7 +37,6 @@ apply plugin: 'org.unbroken-dome.test-sets'
 
 group = 'com.com.deydey'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.11
 
 test {
 	systemProperty 'spring.profiles.active', 'test'
