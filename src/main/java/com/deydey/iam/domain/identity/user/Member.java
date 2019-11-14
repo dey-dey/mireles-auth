@@ -31,7 +31,6 @@ public class Member {
 	private UserId userId;
 	@Getter
 	private AuditInformation auditInformation;
-	@Getter
 	private Authentication authentication;
 
 	public static Member of(UserId userId,
