@@ -1,10 +1,12 @@
 package com.deydey.iam.infrastructure.persistence.jdbc.repositories;
 
 import com.deydey.iam.domain.access.authentication.Authentication;
+import com.deydey.iam.domain.identity.tenant.TenantId;
 import com.deydey.iam.domain.identity.user.Member;
 import com.deydey.iam.domain.identity.user.MemberId;
 import com.deydey.iam.domain.identity.user.MemberRepository;
-import com.deydey.iam.domain.identity.user.UserIdentityInformation;
+import com.deydey.iam.domain.identity.user.UserId;
+import com.deydey.iam.infrastructure.persistence.jdbc.mappers.MemberMapper;
 import com.deydey.iam.infrastructure.persistence.jdbc.queryBuilders.AuditInformationParameterInjection;
 import com.deydey.iam.infrastructure.persistence.jdbc.queryBuilders.JdbcMapParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +14,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MemberJdbcRepository implements MemberRepository {
@@ -30,6 +35,9 @@ public class MemberJdbcRepository implements MemberRepository {
 	private String SAVE_AUTHENTICATION = "insert into authentication " +
 			"(member_id, active, password_hash, password_algorithm, password_salt, created_at, updated_at) values" +
 			"(:memberId, :active, :passwordHash, :passwordAlgorithm, :passwordSalt, :createdAt, :updatedAt)";
+	private String GET_BY_USER_TENANT_ID = "select * from member m " +
+			"where m.user_id = :userId and m.tenant_id = :tenantId";
+	private String GET_BY_MEMBER_ID = "select * from member m where m.id = :memberId";
 
 	private SqlParameterSource buildInsertMemberParameters(Member member) {
 		MapSqlParameterSource parameters = new JdbcMapParameterSource();
@@ -44,15 +52,25 @@ public class MemberJdbcRepository implements MemberRepository {
 	}
 
 	@Override
-	public Optional<Member> save(Member member) {
+	public Member save(Member member) {
 		GeneratedKeyHolder holder = new GeneratedKeyHolder();
 		SqlParameterSource parameterSource = buildInsertMemberParameters(member);
 		jdbcTemplate.update(SAVE_MEMBER, parameterSource, holder);
 		member.setId(
-				new MemberId(holder.getKey().intValue()));
+				new MemberId(Objects.requireNonNull(holder.getKey()).intValue()));
 		SqlParameterSource authenticationParameters = buildInsertMemberAuthenticationParameters(member);
 		jdbcTemplate.update(SAVE_AUTHENTICATION, authenticationParameters);
-		return Optional.of(member);
+		return member;
+	}
+
+	@Override
+	public Member getBy(UserId userId, TenantId tenantId) throws EntityNotFoundException {
+		MapSqlParameterSource parameters = new JdbcMapParameterSource();
+		parameters.addValue("userId", userId.getValue());
+		parameters.addValue("tenantId", tenantId.getValue());
+		List<Member> queryResult = jdbcTemplate.query(GET_BY_USER_TENANT_ID, parameters, new MemberMapper());
+		return queryResult.stream().findFirst().orElseThrow(() ->
+				new EntityNotFoundException("member not found by this user and tenant id"));
 	}
 
 	private SqlParameterSource buildInsertMemberAuthenticationParameters(Member member) {

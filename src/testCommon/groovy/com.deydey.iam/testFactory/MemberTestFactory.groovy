@@ -1,8 +1,7 @@
-package com.deydey.testFactory
+package com.deydey.iam.testFactory
 
 import com.deydey.common.infrastructure.spring.ApplicationConfig
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand
-import com.deydey.iam.domain.identity.tenant.Tenant
 import com.deydey.iam.domain.identity.tenant.TenantId
 import com.deydey.iam.domain.identity.user.Member
 import com.deydey.iam.domain.identity.user.UserId

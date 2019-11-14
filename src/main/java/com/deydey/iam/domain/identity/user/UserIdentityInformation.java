@@ -12,4 +12,8 @@ public class UserIdentityInformation {
 	@Nullable
 	private String lastName;
 	private String defaultEmail;
+
+	String getFullName() {
+		return firstName + " " + lastName;
+	}
 }

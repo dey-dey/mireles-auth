@@ -1,4 +1,4 @@
-package com.deydey.testFactory
+package com.deydey.iam.testFactory
 
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 
