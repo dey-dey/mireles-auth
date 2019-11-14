@@ -8,6 +8,7 @@ import com.deydey.iam.domain.access.authorization.RoleId;
 import com.deydey.iam.domain.identity.tenant.TenantId;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -22,12 +23,14 @@ public class Member {
 	@Getter
 	private MemberId id;
 	@Getter
+	@Setter
 	private TenantId tenantId;
 	@Getter
 	private MemberIndentifiableInformation memberIndentifiableInformation;
 	@Getter
 	private Boolean isPrimary;
 	@Getter
+	@Setter
 	private UserId userId;
 	@Getter
 	private AuditInformation auditInformation;

@@ -1,7 +1,9 @@
 package com.deydey.iam.application.service;
 
 import com.deydey.common.infrastructure.spring.ApplicationConfig;
+import com.deydey.iam.api.dto.RegistrationDto;
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand;
+import com.deydey.iam.application.translator.RegistrationTranslator;
 import com.deydey.iam.domain.access.authorization.RoleService;
 import com.deydey.iam.domain.identity.tenant.Tenant;
 import com.deydey.iam.domain.identity.tenant.TenantRepository;
@@ -35,29 +37,24 @@ public class RegistrationService {
 
 	@Transactional
 	// NOTE: breaking aggregate transactional boundaries due to tenant/user mappings
-	public Optional<User> registerUserAsTenant(CreateRegistrationCommand createRegistrationCommand) {
+	public RegistrationDto registerUserAsTenant(CreateRegistrationCommand createRegistrationCommand) {
 
-		try {
-			Tenant tenant = Tenant.newPersonalTenant(createRegistrationCommand);
-			User user = User.of(tenant.getTenantId(), createRegistrationCommand);
-			Member member = Member.of(user.getId(),
-					tenant.getTenantId(),
-					createRegistrationCommand,
-					bCryptPasswordEncoder,
-					applicationConfig);
+		Tenant tenant = Tenant.newPersonalTenant(createRegistrationCommand);
+		User user = User.of(tenant.getTenantId(), createRegistrationCommand);
+		Member member = Member.of(user.getId(),
+				tenant.getTenantId(),
+				createRegistrationCommand,
+				bCryptPasswordEncoder,
+				applicationConfig);
 
-			tenant.activate();
-			tenant.registerMember(member.getId());
-			user.setPrimaryMember(member);
+		tenant.activate();
+		tenant.registerMember(member.getId());
+		user.setPrimaryMember(member);
 
-			tenantRepository.save(tenant);
-			userRepository.save(user);
-			memberRepository.save(member);
+		tenantRepository.save(tenant);
+		userRepository.save(user);
+		memberRepository.save(member);
 
-			return Optional.of(user);
-		} catch (Exception e) {
-			log.error("registerPersonalAdmin cannot register", e);
-		}
-		return Optional.empty();
+		return RegistrationTranslator.of(user, member, tenant);
 	}
 }

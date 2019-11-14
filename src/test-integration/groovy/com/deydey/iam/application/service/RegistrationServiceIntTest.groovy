@@ -5,6 +5,7 @@ import com.deydey.configuration.DatabaseIntegrationTest
 import com.deydey.iam.api.dto.RegistrationDto
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 import com.deydey.iam.domain.access.authorization.RoleService
+import com.deydey.iam.domain.identity.tenant.TenantId
 import com.deydey.iam.domain.identity.tenant.TenantRepository
 import com.deydey.iam.domain.identity.user.Member
 import com.deydey.iam.domain.identity.user.MemberId
@@ -54,10 +55,11 @@ class RegistrationServiceIntTest extends DatabaseIntegrationTest {
                 .build()
         when:
             RegistrationDto actualResult = objectUnderTest.registerUserAsTenant(createRegistrationCommand)
-            User savedUser = userRepository.getBy(new UserId(actualResult.getUserId())).get()
-            Member savedMember = memberRepository.getBy(new MemberId(actualResult.getMemberId()))
+            User savedUser = userRepository.getBy(new UserId(actualResult.getUserId()))
+            Member savedMember = memberRepository.getBy(new UserId(actualResult.getUserId()),
+                    new TenantId(actualResult.getTenantId()))
         then:
-            actualResult.getId() == savedUser.getId()
+            actualResult.getUserId() == savedUser.getId().getValue()
             actualResult.getTenantId() == savedMember.getTenantId().getValue()
             actualResult.getEmail() == expectedEmail
     }

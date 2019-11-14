@@ -1,7 +1,10 @@
 package com.deydey.iam.domain.identity.user;
 
-import java.util.Optional;
+import com.deydey.iam.domain.identity.tenant.TenantId;
+
+import javax.persistence.EntityNotFoundException;
 
 public interface MemberRepository {
-	Optional<Member> save(Member member);
+	Member save(Member member);
+	Member getBy(UserId userId, TenantId tenantId) throws EntityNotFoundException;
 }
