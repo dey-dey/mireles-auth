@@ -4,7 +4,7 @@ import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 import com.deydey.iam.domain.identity.tenant.Tenant
 import com.deydey.iam.domain.identity.tenant.TenantId
 
-import static com.deydey.testFactory.CreateRegistrationCommendTestFactory.aCreateRegistrationCommand
+import static com.deydey.iam.testFactory.CreateRegistrationCommendTestFactory.aCreateRegistrationCommand
 
 class TenantTestFactory {
     static Tenant aPersonalTenant(Map params = [:]) {
