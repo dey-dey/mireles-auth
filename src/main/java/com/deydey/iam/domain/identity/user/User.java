@@ -5,6 +5,7 @@ import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 import com.deydey.iam.domain.identity.tenant.TenantId;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.Value;
 import org.springframework.lang.Nullable;
 
@@ -17,12 +18,14 @@ import java.util.List;
 public class User {
 
 	@Getter
+	@Setter
 	private UserId id;
 	@Getter
 	private UserIdentityInformation userIdentityInformation;
 	@Getter
 	private AuditInformation auditInformation;
 	@Getter
+	@Setter
 	private TenantId tenantId;
 
 	private List<Member> members;
@@ -77,4 +80,11 @@ public class User {
 		this.members = members;
 	}
 
+	public String fullName() {
+		return userIdentityInformation.getFullName();
+	}
+
+	public String defaultEmail() {
+		return userIdentityInformation.getDefaultEmail();
+	}
 }
