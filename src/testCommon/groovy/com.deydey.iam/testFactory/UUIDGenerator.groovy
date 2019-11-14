@@ -1,4 +1,4 @@
-package com.deydey.testFactory
+package com.deydey.iam.testFactory
 
 class UUIDGenerator {
     static uuid() {

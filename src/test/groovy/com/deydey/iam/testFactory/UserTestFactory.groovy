@@ -1,12 +1,12 @@
-package com.deydey.testFactory
+package com.deydey.iam.testFactory
 
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 import com.deydey.iam.domain.identity.tenant.TenantId
 import com.deydey.iam.domain.identity.user.User
 import com.deydey.iam.domain.identity.user.UserId
 
-import static com.deydey.testFactory.CreateRegistrationCommendTestFactory.aCreateRegistrationCommand
-import static com.deydey.testFactory.UUIDGenerator.uuid
+import static com.deydey.iam.testFactory.CreateRegistrationCommendTestFactory.aCreateRegistrationCommand
+import static com.deydey.iam.testFactory.UUIDGenerator.uuid
 
 class UserTestFactory {
     static User aUser(Map params = [:]) {
