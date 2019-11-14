@@ -12,9 +12,9 @@ import spock.lang.Specification
 
 import javax.persistence.EntityNotFoundException
 
-import static com.deydey.testFactory.UUIDGenerator.uuid
-import static com.deydey.testFactory.MemberTestFactory.aMember
-import static com.deydey.testFactory.UserTestFactory.aUser
+import static com.deydey.iam.testFactory.UUIDGenerator.uuid
+import static com.deydey.iam.testFactory.MemberTestFactory.aMember
+import static com.deydey.iam.testFactory.UserTestFactory.aUser
 import static java.util.Arrays.asList
 
 class UserRepositoryUnitTest extends Specification {
