@@ -73,8 +73,6 @@ public class MemberJdbcRepository implements MemberRepository {
 				new EntityNotFoundException("member not found by this user and tenant id"));
 	}
 
-	}
-
 	private SqlParameterSource buildInsertMemberAuthenticationParameters(Member member) {
 		MapSqlParameterSource parameters = new JdbcMapParameterSource();
 		AuditInformationParameterInjection.injectParameters(parameters, member.getAuditInformation());
