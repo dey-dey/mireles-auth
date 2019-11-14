@@ -123,4 +123,4 @@ integrationTest {
 	reports.junitXml.destination = file('build/test-results/integration')
 }
 
-ext['groovy.version'] = '2.5.6'
+ext['groovy.version'] = "${project['groovy.version']}"
