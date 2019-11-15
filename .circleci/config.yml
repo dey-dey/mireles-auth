@@ -29,9 +29,9 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: ./gradlew clean test --stacktrace --info
+      - run: ./gradlew clean test --stacktrace --info --debug
       - store_test_results:
           path: ./build/test-results
-      - run: ./gradlew integrationTest --stacktrace --info
+      - run: ./gradlew integrationTest --stacktrace --info --debug
       - store_test_results:
-          path: ./build/test-results
+          path: ./build/integration-test-results

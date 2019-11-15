@@ -73,6 +73,15 @@ public class MemberJdbcRepository implements MemberRepository {
 				new EntityNotFoundException("member not found by this user and tenant id"));
 	}
 
+	@Override
+	public Member getBy(MemberId memberId) throws EntityNotFoundException {
+		MapSqlParameterSource parameters = new JdbcMapParameterSource();
+		parameters.addValue("memberId", memberId);
+		List<Member> queryResult = jdbcTemplate.query(GET_BY_MEMBER_ID, parameters, new MemberMapper());
+		return queryResult.stream().findFirst().orElseThrow(() ->
+				new EntityNotFoundException("member not found by this member id"));
+	}
+
 	private SqlParameterSource buildInsertMemberAuthenticationParameters(Member member) {
 		MapSqlParameterSource parameters = new JdbcMapParameterSource();
 		AuditInformationParameterInjection.injectParameters(parameters, member.getAuditInformation());

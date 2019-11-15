@@ -56,6 +56,7 @@ public class Member {
 								createRegistrationCommand.getPhoneNumber()))
 				.authentication(anAuthentication)
 				.auditInformation(AuditInformation.now())
+				.isPrimary(false)
 				.build();
 	}
 

@@ -7,4 +7,5 @@ import javax.persistence.EntityNotFoundException;
 public interface MemberRepository {
 	Member save(Member member);
 	Member getBy(UserId userId, TenantId tenantId) throws EntityNotFoundException;
+	Member getBy(MemberId memberId) throws EntityNotFoundException;
 }

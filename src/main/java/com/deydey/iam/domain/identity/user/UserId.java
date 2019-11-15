@@ -6,11 +6,14 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public
-class UserId implements EntityId {
+public class UserId implements EntityId {
 	private UUID value;
+
+	public UserId(UUID id) {
+		this.value = id;
+	}
 
 	static UUID nextValue() {
 		return UUID.randomUUID();
 	}
- }
+}
