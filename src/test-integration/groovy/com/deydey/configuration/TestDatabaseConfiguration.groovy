@@ -29,59 +29,9 @@ import javax.sql.DataSource
 @Slf4j
 @Testcontainers
 class TestDatabaseConfiguration {
-
-//
-//    @Autowired
-//    ApplicationUserDetailsService userDetailsService
-//    @Autowired
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//    @Autowired
-//    private final ApplicationConfig applicationConfig;
-//    @Autowired
-//    private final SecurityService securityService;
-//    @Autowired
-//    private final CredentialsService credentialsService;
-
-//    @Bean
-//    @Profile("test")
-//    WebSecurityConfig webSecurityConfig() {
-//        return new WebSecurityConfig(userDetailsService,
-//                bCryptPasswordEncoder,
-//                applicationConfig,
-//                securityService,
-//                credentialsService)
-//    }
-
-//    @Autowired
-//    Environment environment
-
-//    @Bean
-//    @Profile("test")
-//    DataSource dataSource() {
-//
-//        return DataSourceBuilder.create()
-//                .url(environment.getProperty("spring.datasource.url"))
-//                .username("dev")
-//                .password("q1w2e3r4")
-//                .build() as DataSource
-//        HikariConfig hikariConfig = new HikariConfig()
-//        hikariConfig.setDriverClassName("org.postgresql.Driver")
-//        hikariConfig.set
-//        hikariConfig.setJdbcUrl(String.format("jdbc:postgresql://%s:%s/%s", postgreSQLContainer.getContainerIpAddress(),
-//                postgreSQLContainer.getMappedPort(
-//                        PostgreSQLContainer.POSTGRESQL_PORT),
-//                postgreSQLContainer.getDatabaseName()))
-//        hikariConfig.setUsername("dev")
-//        hikariConfig.setPassword("q1w2e3r4")
-//        HikariDataSource ds = new HikariDataSource(hikariConfig)
-//        ds.setDriverClassName("org.postgresql.Driver")
-//        return ds
-//    }
-
     @Bean
     @Qualifier("jdbcTemplate")
     NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-        log.info("~~~~~~~~~~~~~~~~~", dataSource)
         return new NamedParameterJdbcTemplate(dataSource)
     }
 
