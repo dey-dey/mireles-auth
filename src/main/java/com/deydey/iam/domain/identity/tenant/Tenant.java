@@ -6,6 +6,7 @@ import com.deydey.iam.application.command.registration.CreateRegistrationCommand
 import com.deydey.iam.domain.identity.user.MemberId;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class Tenant {
 
 	@Getter
+	@Setter
 	private TenantId tenantId;
 	@Getter
 	private Boolean enabled;
