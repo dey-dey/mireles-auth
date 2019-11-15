@@ -26,12 +26,9 @@ public class DatabaseConfiguration {
 	}
 
 	@Bean
-//	@Profile("!test")
 	public DataSource dataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setJdbcUrl(environment.getProperty("spring.datasource.url"));
-//		log.info("~~~~~~~~~~{}", environment.getProperty("spring.datasource.driver-class-name"));
-//        hikariConfig.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
         hikariConfig.setUsername(environment.getProperty("spring.datasource.username"));
         hikariConfig.setPassword(environment.getProperty("spring.datasource.password"));
 		return new HikariDataSource(hikariConfig);
