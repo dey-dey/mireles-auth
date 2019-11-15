@@ -8,7 +8,6 @@ import com.deydey.iam.domain.access.authorization.RoleService
 import com.deydey.iam.domain.identity.tenant.TenantId
 import com.deydey.iam.domain.identity.tenant.TenantRepository
 import com.deydey.iam.domain.identity.user.Member
-import com.deydey.iam.domain.identity.user.MemberId
 import com.deydey.iam.domain.identity.user.MemberRepository
 import com.deydey.iam.domain.identity.user.User
 import com.deydey.iam.domain.identity.user.UserId
