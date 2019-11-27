@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 public class RegistrationService {
@@ -38,7 +38,6 @@ public class RegistrationService {
 	@Transactional
 	// NOTE: breaking aggregate transactional boundaries due to tenant/user mappings
 	public RegistrationDto registerUserAsTenant(CreateRegistrationCommand createRegistrationCommand) {
-
 		Tenant tenant = Tenant.newPersonalTenant(createRegistrationCommand);
 		User user = User.of(tenant.getTenantId(), createRegistrationCommand);
 		Member member = Member.of(user.getId(),
@@ -48,7 +47,7 @@ public class RegistrationService {
 				applicationConfig);
 
 		tenant.activate();
-		tenant.registerMember(member.getId());
+		tenant.registerMemberWithRole(member.getId(), Set.of());
 		user.setPrimaryMember(member);
 
 		tenantRepository.save(tenant);
