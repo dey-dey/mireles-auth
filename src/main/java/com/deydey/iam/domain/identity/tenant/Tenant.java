@@ -24,7 +24,7 @@ public class Tenant {
 	@Getter
 	private TenantType tenantType;
 	@Getter
-	private List<TenantMember> memberships;
+	private List<TenantMember> tenantMemberships;
 	@Getter
 	private AuditInformation auditInformation;
 
@@ -33,7 +33,7 @@ public class Tenant {
 				.tenantId(TenantId.getNextValue())
 				.name(Tenant.tenantName(createRegistrationCommand.getFirstName(), createRegistrationCommand.getLastName()))
 				.tenantType(TenantType.Personal)
-				.memberships(new ArrayList<>())
+				.tenantMemberships(new ArrayList<>())
 				.auditInformation(AuditInformation.now())
 				.tenantId(TenantId.getNextValue())
 				.enabled(false)
@@ -50,7 +50,7 @@ public class Tenant {
 
 	public void registerMember(MemberId memberId) {
 		// check to see if there is more than one personal tenant
-		memberships.add(TenantMember.of(tenantId, memberId));
+		tenantMemberships.add(TenantMember.of(tenantId, memberId));
 	}
 
 	private static String tenantName(String firstName, String lastName) {
