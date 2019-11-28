@@ -38,7 +38,7 @@ CREATE TABLE member
 
 CREATE TABLE tenant_member
 (
-    id uuid NOT NULL,
+    id bigserial NOT NULL,
     member_id bigint NOT NULL references member on delete cascade,
     tenant_id uuid NOT NULL references tenant on delete cascade,
     starting_on TIMESTAMPTZ NOT NULL DEFAULT now(),
