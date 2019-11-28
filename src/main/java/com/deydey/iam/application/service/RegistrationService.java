@@ -15,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
-import java.util.Set;
+
+import static java.util.Set.*;
 
 @Slf4j
 public class RegistrationService {
@@ -47,7 +48,7 @@ public class RegistrationService {
 				applicationConfig);
 
 		tenant.activate();
-		tenant.registerMemberWithRole(member.getId(), Set.of());
+		tenant.registerMemberWithRole(member.getId(), of());
 		user.setPrimaryMember(member);
 
 		tenantRepository.save(tenant);
