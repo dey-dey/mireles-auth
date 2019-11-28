@@ -4,6 +4,7 @@ import com.deydey.common.infrastructure.spring.ApplicationConfig;
 import com.deydey.iam.api.dto.RegistrationDto;
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand;
 import com.deydey.iam.application.translator.RegistrationTranslator;
+import com.deydey.iam.domain.access.authorization.Role;
 import com.deydey.iam.domain.access.authorization.RoleService;
 import com.deydey.iam.domain.identity.tenant.Tenant;
 import com.deydey.iam.domain.identity.tenant.TenantRepository;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 
-import static java.util.Set.*;
+import java.util.HashSet;
 
 @Slf4j
 public class RegistrationService {
@@ -48,7 +49,7 @@ public class RegistrationService {
 				applicationConfig);
 
 		tenant.activate();
-		tenant.registerMemberWithRole(member.getId(), of());
+		tenant.registerMemberWithRole(member.getId(), new HashSet<>());
 		user.setPrimaryMember(member);
 
 		tenantRepository.save(tenant);
