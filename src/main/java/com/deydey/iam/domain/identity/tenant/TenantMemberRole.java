@@ -29,9 +29,9 @@ public class TenantMemberRole {
     @Getter
     private Instant retiredOn;
 
-    static public TenantMemberRole of(Role role) {
+    static public TenantMemberRole of(RoleId aRoleId) {
         return TenantMemberRole.builder()
-                .roleId(role.getId())
+                .roleId(aRoleId)
                 .startingOn(Instant.now())
                 .retiredOn(null)
                 .build();

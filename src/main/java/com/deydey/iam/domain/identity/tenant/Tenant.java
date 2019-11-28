@@ -3,6 +3,8 @@ package com.deydey.iam.domain.identity.tenant;
 
 import com.deydey.common.infrastructure.persistence.AuditInformation;
 import com.deydey.iam.application.command.registration.CreateRegistrationCommand;
+import com.deydey.iam.domain.access.authorization.Role;
+import com.deydey.iam.domain.access.authorization.RoleId;
 import com.deydey.iam.domain.identity.user.MemberId;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,6 +53,13 @@ public class Tenant {
 	public void registerMember(MemberId memberId) {
 		// check to see if there is more than one personal tenant
 		tenantMemberships.add(TenantMember.of(tenantId, memberId));
+	public void registerMemberWithRole(MemberId memberId, Set<Role> roles) {
+		// TODO check to see if there is more than one personal tenant
+		tenantMemberships.add(TenantMember.of(tenantId, memberId, rolesToRoleIds(roles)));
+	}
+
+	private Set<RoleId> rolesToRoleIds(Set<Role> roles) {
+		return roles.stream().map(Role::getId).collect(Collectors.toSet());
 	}
 
 	private static String tenantName(String firstName, String lastName) {
