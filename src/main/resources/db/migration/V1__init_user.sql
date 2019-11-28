@@ -51,7 +51,7 @@ CREATE TABLE tenant_member
 CREATE TABLE tenant_member_role
 (
     id bigserial NOT NULL,
-    tenant_member_id NOT NULL references tenant_member on delete cascade,
+    tenant_member_id bigint NOT NULL references tenant_member on delete cascade,
     starting_on TIMESTAMPTZ NOT NULL DEFAULT now(),
     retired_on TIMESTAMPTZ NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
