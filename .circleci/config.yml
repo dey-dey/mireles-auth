@@ -31,7 +31,7 @@ jobs:
       # run tests!
       - run: ./gradlew clean test --stacktrace --info --debug
       - store_test_results:
-          path: ./build/test-results/test-results.xml
+          path: ./build/test-results/unit
       - run: ./gradlew integrationTest --stacktrace --info --debug
       - store_test_results:
-          path: ./build/integration-test-results/test-results.xml
+          path: ./build/test-results/integration
