@@ -48,4 +48,15 @@ CREATE TABLE tenant_member
     PRIMARY KEY (id)
 );
 
+CREATE TABLE tenant_member_role
+(
+    id bigserial NOT NULL,
+    tenant_member_id NOT NULL references tenant_member on delete cascade,
+    starting_on TIMESTAMPTZ NOT NULL DEFAULT now(),
+    retired_on TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL,
+    primary key (id)
+);
+
 CREATE UNIQUE index part_of_email on users (default_email);
