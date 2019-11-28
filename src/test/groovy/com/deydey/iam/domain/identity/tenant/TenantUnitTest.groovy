@@ -1,6 +1,7 @@
 package com.deydey.iam.domain.identity.tenant
 
 import com.deydey.iam.domain.access.authorization.Role
+import com.deydey.iam.domain.access.authorization.RoleId
 import com.deydey.iam.domain.identity.user.Member
 import spock.lang.Specification
 
@@ -33,14 +34,14 @@ class TenantUnitTest extends Specification {
             Tenant tenant = aPersonalTenant()
             Member member = aMember()
             member.setTenantId(tenant.getTenantId())
-            Set<Role> roles = Set.of(aRole())
+            Set<RoleId> roleIds = Set.of(aRole().getId())
         when:
-            TenantMember actual = TenantMember.of(tenant.getTenantId(), member.getId(), roles)
+            TenantMember actual = TenantMember.of(tenant.getTenantId(), member.getId(), roleIds)
         then:
             actual.startingOn != null
             actual.memberId == member.getId()
             actual.tenantId == tenant.getTenantId()
-            actual.roles.first().roleId == roles.first().id
+            actual.roles.first().roleId == roleIds.first()
     }
 
     def "a tenant member role can be retired" () {
