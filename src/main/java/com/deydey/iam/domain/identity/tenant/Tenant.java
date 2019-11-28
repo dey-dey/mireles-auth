@@ -12,6 +12,8 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 public class Tenant {
@@ -50,9 +52,20 @@ public class Tenant {
 		enabled = Boolean.TRUE;
 	}
 
-	public void registerMember(MemberId memberId) {
-		// check to see if there is more than one personal tenant
-		tenantMemberships.add(TenantMember.of(tenantId, memberId));
+	public void retireTenantMember(MemberId aMemberId) throws IllegalArgumentException {
+
+		TenantMember tenantMember = tenantMemberships.stream()
+				.filter(aTenantMember -> aTenantMember.getMemberId() == aMemberId)
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("tenant tenantMember was not found"));
+
+		tenantMember.retire();
+
+		tenantMemberships = tenantMemberships.stream()
+				.filter(aTenantMember -> aTenantMember.getMemberId() != aMemberId)
+				.collect(Collectors.toList());
+	}
+
 	public void registerMemberWithRole(MemberId memberId, Set<Role> roles) {
 		// TODO check to see if there is more than one personal tenant
 		tenantMemberships.add(TenantMember.of(tenantId, memberId, rolesToRoleIds(roles)));
