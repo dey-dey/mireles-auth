@@ -31,7 +31,7 @@ jobs:
       # run tests!
       - run: ./gradlew clean test --stacktrace --info --debug
       - store_test_results:
-          path: ./build/test-results/unit
+          path: ./mireles-auth/build/test-results
       - run: ./gradlew integrationTest --stacktrace --info --debug
       - store_test_results:
-          path: ./build/test-results/integration
+          path: ./mireles-auth/build/test-results
