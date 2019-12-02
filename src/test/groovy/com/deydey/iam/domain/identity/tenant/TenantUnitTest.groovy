@@ -16,7 +16,8 @@ class TenantUnitTest extends Specification {
             Tenant tenant = aPersonalTenant()
             Member member = aMember()
             member.setTenantId(tenant.getTenantId())
-            Set<Role> roles = Set.of(aRole())
+            Set<Role> roles = new HashSet()
+            roles.add(aRole())
         when: "registering one member"
             tenant.registerMemberWithRole(member.getId(), roles)
         then: "the membership size increases"
@@ -34,7 +35,8 @@ class TenantUnitTest extends Specification {
             Tenant tenant = aPersonalTenant()
             Member member = aMember()
             member.setTenantId(tenant.getTenantId())
-            Set<RoleId> roleIds = Set.of(aRole().getId())
+            Set<RoleId> roleIds = new HashSet()
+            roleIds.add(aRole().getId())
         when:
             TenantMember actual = TenantMember.of(tenant.getTenantId(), member.getId(), roleIds)
         then:
