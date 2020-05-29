@@ -32,12 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public WebSecurityConfig(ApplicationUserDetailsService userDetailsService,
-							 BCryptPasswordEncoder bCryptPasswordEncoder,
 							 ApplicationConfig applicationConfig,
 							 SecurityService securityService,
 							 CredentialsService credentialsService) {
 		this.userDetailsService = userDetailsService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		this.applicationConfig = applicationConfig;
 		this.securityService = securityService;
 		this.credentialsService = credentialsService;
@@ -80,6 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+		return bCryptPasswordEncoder;
 	}
 }
