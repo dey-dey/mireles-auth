@@ -89,6 +89,8 @@ dependencies {
 	compile 'com.wix:wix-embedded-mysql:2.1.4'
 	compile("org.projectlombok:lombok:$lombokVersion")
 	compile 'org.postgresql:postgresql:42.2.5'
+	implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+	implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
 	
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 	testImplementation "org.codehaus.groovy:groovy-all:${project['groovy.version']}"
