@@ -1,7 +1,9 @@
 package com.deydey.iam.domain.access.authentication;
 
 import com.deydey.iam.domain.identity.user.Member;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CredentialsService {
 
 	public Credentials credentialsOfMember(Member member) {
