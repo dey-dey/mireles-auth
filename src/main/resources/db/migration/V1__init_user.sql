@@ -13,7 +13,6 @@ CREATE TABLE tenant (
 
 CREATE TABLE users (
     id uuid NOT NULL,
-    tenant_id uuid NOT NULL references tenant (id) on delete cascade,
     default_email varchar(250) NOT NULL,
     first_name varchar(250),
     last_name varchar(250),

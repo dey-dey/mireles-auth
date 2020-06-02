@@ -9,8 +9,8 @@ import static com.deydey.iam.testFactory.CreateRegistrationCommendTestFactory.aC
 import static com.deydey.iam.testFactory.UUIDGenerator.uuid
 
 class UserTestFactory {
-    static User aUser(Map params = [:]) {
-        User user = User.of(params.tenantId as TenantId ?: new TenantId(uuid()),
+    static User aUserOf(Map params = [:]) {
+        User user = User.of(
             params.createRegistrationCommand as CreateRegistrationCommand ?: aCreateRegistrationCommand())
         if (params.userId) {
             user.setId(params.userId as UserId)
