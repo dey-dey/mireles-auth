@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import static com.deydey.iam.testFactory.MemberTestFactory.aMember
 import static com.deydey.iam.testFactory.TenantTestFactory.aPersonalTenant
 import static com.deydey.iam.testFactory.UUIDGenerator.uuid
-import static com.deydey.iam.testFactory.UserTestFactory.aUser
+import static com.deydey.iam.testFactory.UserTestFactory.aUserOf
 
 class MemberRepositoryIntTest extends DatabaseIntegrationTest {
 
@@ -51,6 +51,6 @@ class MemberRepositoryIntTest extends DatabaseIntegrationTest {
     }
 
     def saveAUser() {
-        userRepository.save(aUser([tenantId: tenantId, userId: userId]))
+        userRepository.save(aUserOf([userId: userId]))
     }
 }
