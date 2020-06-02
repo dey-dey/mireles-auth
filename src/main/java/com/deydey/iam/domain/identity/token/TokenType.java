@@ -1,4 +1,4 @@
-package com.deydey.iam.domain.identity.authentication;
+package com.deydey.iam.domain.identity.token;
 
 public enum TokenType {
 	REGISTRATION,
