@@ -1,22 +1,11 @@
-package com.deydey.iam.domain.access.authentication;
+package com.deydey.iam.domain.identity.authentication;
 
 import com.deydey.common.infrastructure.persistence.AuditInformation;
-import com.deydey.common.infrastructure.spring.ApplicationConfig;
-import com.deydey.common.infrastructure.spring.security.SecurityConstants;
-import com.deydey.iam.domain.identity.user.Member;
 import com.deydey.iam.domain.identity.user.MemberId;
-import io.micrometer.core.lang.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Value;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.List;
+import java.time.Instant;
 
 @Builder
 @NoArgsConstructor
@@ -30,6 +19,10 @@ public class Authentication {
 	private AuthenticationInformation authenticationInformation;
 	@Getter
 	private AuditInformation auditInformation;
+	@Getter
+	private Instant activeFrom;
+	@Getter
+	private Instant activeTo;
 
 	public Authentication(MemberId memberId, String password, String passwordSalt, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.id = AuthenticationId.getNext();
@@ -41,9 +34,13 @@ public class Authentication {
 				.passwordSalt(passwordSalt)
 				.build();
 		this.auditInformation = AuditInformation.now();
+		this.activeFrom = Instant.now();
+		this.activeTo = null;
 	}
 
-
+	public boolean isActive() {
+		return activeTo != null;
+	}
 	public String getPassword() {
 		return authenticationInformation.getPasswordHash();
 	}
@@ -53,5 +50,4 @@ public class Authentication {
 	public String getPasswordSalt() {
 		return authenticationInformation.getPasswordSalt();
 	}
-
  }

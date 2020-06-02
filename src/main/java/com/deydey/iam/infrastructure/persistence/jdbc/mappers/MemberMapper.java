@@ -1,8 +1,7 @@
 package com.deydey.iam.infrastructure.persistence.jdbc.mappers;
 
 import com.deydey.common.infrastructure.persistence.AuditInformation;
-import com.deydey.iam.domain.access.authentication.Authentication;
-import com.deydey.iam.domain.access.authentication.AuthenticationId;
+import com.deydey.iam.domain.identity.authentication.Authentication;
 import com.deydey.iam.domain.identity.tenant.TenantId;
 import com.deydey.iam.domain.identity.user.Member;
 import com.deydey.iam.domain.identity.user.MemberId;
