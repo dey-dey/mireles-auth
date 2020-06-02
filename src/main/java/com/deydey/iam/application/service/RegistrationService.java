@@ -41,7 +41,7 @@ public class RegistrationService {
 	// NOTE: breaking aggregate transactional boundaries due to tenant/user mappings
 	public RegistrationDto registerUserAsTenant(CreateRegistrationCommand createRegistrationCommand) {
 		Tenant tenant = Tenant.newPersonalTenant(createRegistrationCommand);
-		User user = User.of(tenant.getTenantId(), createRegistrationCommand);
+		User user = User.of(createRegistrationCommand);
 		Member member = Member.of(user.getId(),
 				tenant.getTenantId(),
 				createRegistrationCommand,

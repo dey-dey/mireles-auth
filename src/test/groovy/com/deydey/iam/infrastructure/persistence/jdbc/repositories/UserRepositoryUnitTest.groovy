@@ -14,7 +14,7 @@ import javax.persistence.EntityNotFoundException
 
 import static com.deydey.iam.testFactory.UUIDGenerator.uuid
 import static com.deydey.iam.testFactory.MemberTestFactory.aMember
-import static com.deydey.iam.testFactory.UserTestFactory.aUser
+import static com.deydey.iam.testFactory.UserTestFactory.aUserOf
 import static java.util.Arrays.asList
 
 class UserRepositoryUnitTest extends Specification {
@@ -29,7 +29,7 @@ class UserRepositoryUnitTest extends Specification {
 
     def "user repository gets user by user id" () {
         given: "a user"
-            User expected = aUser([
+            User expected = aUserOf([
                 userId: new UserId(uuid())
             ])
         and: "a parameter query source"
@@ -52,7 +52,7 @@ class UserRepositoryUnitTest extends Specification {
 
     def "user repository throws exception for if user does not exist" () {
         given: "a user"
-        User expected = aUser([
+        User expected = aUserOf([
                 userId: new UserId(uuid())
         ])
         and: "a parameter query source"

@@ -24,16 +24,10 @@ public class User {
 	private UserIdentityInformation userIdentityInformation;
 	@Getter
 	private AuditInformation auditInformation;
-	@Getter
-	@Setter
-	private TenantId tenantId;
-
 	private List<Member> members;
 
-	public static User of(TenantId tenantId,
-						CreateRegistrationCommand createRegistrationCommand) {
+	public static User of(CreateRegistrationCommand createRegistrationCommand) {
 		return User.builder()
-				.tenantId(tenantId)
 				.userIdentityInformation(
 					new UserIdentityInformation(createRegistrationCommand.getFirstName(),
 						createRegistrationCommand.getLastName(),

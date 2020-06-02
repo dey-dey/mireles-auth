@@ -15,6 +15,7 @@ import static java.util.Arrays.asList
 import static com.deydey.iam.testFactory.UUIDGenerator.uuid
 import static com.deydey.iam.testFactory.MemberTestFactory.aMember
 import static com.deydey.iam.testFactory.UserTestFactory.aUser
+import static com.deydey.iam.testFactory.UserTestFactory.aUserOf
 import static com.deydey.iam.testFactory.TenantTestFactory.aPersonalTenant
 
 class MemberRepositoryUnitTest extends Specification {
@@ -29,9 +30,8 @@ class MemberRepositoryUnitTest extends Specification {
     def "member repository gets a member and hydrates the user and tenant id" () {
         given: "a user and a tenant"
             Tenant expectedTenant = aPersonalTenant()
-            User expectedUser = aUser([
+            User expectedUser = aUserOf([
                     userId: new UserId(uuid()),
-                    tenantId: expectedTenant.getTenantId()
             ])
         and: "an expected member without tenant and user id"
             Member expected = aMember()
