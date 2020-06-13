@@ -2,9 +2,9 @@ package com.deydey.common.infrastructure.spring.security;
 
 import com.deydey.common.infrastructure.spring.ApplicationConfig;
 import com.deydey.iam.application.service.SecurityService;
-import com.deydey.iam.domain.access.authentication.Credentials;
-import com.deydey.iam.domain.access.authentication.CredentialsService;
 import com.deydey.iam.domain.access.authorization.Role;
+import com.deydey.iam.domain.identity.authentication.Credentials;
+import com.deydey.iam.domain.identity.authentication.CredentialsService;
 import com.deydey.iam.domain.identity.user.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.deydey.iam.domain.identity.user.User;

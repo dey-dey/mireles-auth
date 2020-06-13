@@ -1,4 +1,4 @@
-package com.deydey.iam.domain.access.authentication;
+package com.deydey.iam.domain.identity.authentication;
 
 import com.deydey.common.infrastructure.persistence.AuditInformation;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.InetAddress;
-import java.time.Instant;
 
 
 @Data
