@@ -3,7 +3,7 @@ package com.deydey.common.infrastructure.spring.security;
 import com.deydey.common.infrastructure.spring.ApplicationConfig;
 import com.deydey.iam.application.service.ApplicationUserDetailsService;
 import com.deydey.iam.application.service.SecurityService;
-import com.deydey.iam.domain.access.authentication.CredentialsService;
+import com.deydey.iam.domain.identity.authentication.CredentialsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
