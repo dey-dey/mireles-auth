@@ -2,7 +2,10 @@ package com.deydey.iam.domain.identity.authentication;
 
 import com.deydey.common.infrastructure.persistence.AuditInformation;
 import com.deydey.iam.domain.identity.user.MemberId;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.Instant;
